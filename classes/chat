@@ -1,0 +1,15 @@
+class Chat:
+    def __init__(self, nom, rareté, niveau=1, statistiques):
+        self.nom = nom
+        self.rarete = rareté
+        self.niveau = niveau
+        self.statistiques = statistiques # exemple : {"pv": 100, "force" : 20 ,"vitesse" : 30, "attaque_speciale" : "feu"}
+
+    def améliorer(self):
+        self.niveau += 1
+        self.statistiques["pv"] += 100
+        self.statistiques["attaque"] += 10
+        self.statistiques["défense"] += 5
+
+    def __str__(self):
+        return f"{self.nom} (Niveau {self.niveau}, {self.rarete}): PV={self.statistiques['pv']}, Attaque={self.statistiques['attaque']}, Défense={self.statistiques['défense']}"
