@@ -1,15 +1,92 @@
-class Chat:
-    def __init__(self, nom, rareté, niveau=1,):
-        self.nom = nom
-        self.rarete = rareté
-        self.niveau = niveau
-        self.statistiques = {"pv": 100, "force" : 20 ,"vitesse" : 30, "attaque_speciale" : "feu"}
+import random
 
-    def améliorer(self):
-        self.niveau += 1
-        self.statistiques["pv"] += 100
-        self.statistiques["attaque"] += 10
-        self.statistiques["défense"] += 5
+PARTICULARITES = {
+    "bruler": {
+        "nom": "Brûlure",
+        "description": "Inflige des dégâts supplémentaires (50% de l'attaque).",
+        "effet": lambda attaquant, cible, degats: (
+            cible.appliquer_degats(int(degats * 0.5)),
+            f"{attaquant.nom} inflige {int(degats * 0.5)} dégâts supplémentaires (Brûlure) !"
+        )},
+    "soin": {
+        "nom": "Soin",
+        "description": "Restaure 20% des PV manquants.",
+        "effet": lambda attaquant, cible, degats: (
+            attaquant.soigner(int(attaquant.get_pv_max() * 0.2)),
+            f"{attaquant.nom} se soigne et récupère {int(attaquant.get_pv_max() * 0.2)} PV !"
+        )},
+        }
+
+class Chat:
+    def __init__(self, nom, rarete, pv, force, vitesse, particularite, niveau=1):
+        self.nom = nom
+        self.rarete = rarete              # commun, rare, épique, légendaire...
+        self.pv = pv
+        self.force = force
+        self.vitesse = vitesse
+        self.particularite = particularite  # {"nom": "Brûlure", "effet": "bruler", "chance": 0.3}
+        self.niveau = niveau
 
     def __str__(self):
-        return f"{self.nom} (Niveau {self.niveau}, {self.rarete}): PV={self.statistiques['pv']}, Attaque={self.statistiques['attaque']}, Défense={self.statistiques['défense']}"
+        """Affichage lisible du chat"""
+        return (f"{self.nom} ({self.rarete}) - "
+                f"PV: {self.pv}, "
+                f"Force: {self.force}, "
+                f"Vitesse: {self.vitesse}, "
+                f"Particularité: {self.particularite['nom']}")
+
+    def est_vivant(self):
+        """Retourne True si le chat a encore des PV"""
+        return self.pv > 0
+
+    def appliquer_degats(self, degats):
+        """Réduit les PV du chat lorsqu’il prend des dégâts"""
+        self.pv = max(self.pv - degats, 0)
+
+    def activer_particularite(self):
+        if random.random() < self.particularite["chance"]:
+            return self.particularite["effet"]
+        return None
+    
+    def attaquer(self, cible):
+        degats = self.force
+        print(f"{self.nom} attaque {cible.nom} pour {degats} dégâts !")
+        degats_reels = cible.appliquer_degats(degats)
+
+        # Vérifier si particularité
+        effet = self.activer_particularite()
+        if effet:
+            print(f"✨ {self.nom} active {self.particularite['nom']} !")
+            result = PARTICULARITES[effet]["effet"](self, cible, degats)
+            if result[1]:  # Afficher le message de l'effet
+                print(result[1])
+
+        return degats_reels
+    
+    def monter_niveau(self):
+        """Améliore le chat en augmentant son niveau et ses stats."""
+        self.niveau += 1
+        self.pv = int(self.pv * 1.5)  # Augmenter les PV
+        self.force = int(self.force * 1.2)  # Augmenter la force
+        self.vitesse = int(self.vitesse * 1.1)  # Augmenter la vitesse
+        # Améliorer la chance ou la puissance de la particularité
+        if "chance" in self.particularite:
+            self.particularite["chance"] = min(self.particularite["chance"] + 0.05, 1.0)  # Max 100%
+        print(f"🌟 {self.nom} monte au niveau {self.niveau} !")
+    
+chat_feu = Chat(
+    nom="Chat Feu",
+    rarete="épique",
+    pv=100,
+    force=35,
+    vitesse=20,
+    particularite={
+        "nom": "Brûlure",
+        "effet": "bruler",
+        "chance": 0.3
+    },
+    niveau = 1)
+
+print (chat_feu)
+chat_feu.monter_niveau()
+print (chat_feu)
