@@ -1,0 +1,6 @@
+Commandes GitHub
+
+1) git add nom_fichier
+    ou add * (ajoute tous les fichiers)
+2) git commit -m "commentaire sur les modifications"
+3) git push
