@@ -1,0 +1,11 @@
+import pygame
+
+class Game :
+    def __init__ (self) :
+        self.running = True #permet de voir si le jeu est actif
+
+    def run(self) :
+        while self.running == True :
+            pass #si le jeu est actif on fait quelque chose
+
+    

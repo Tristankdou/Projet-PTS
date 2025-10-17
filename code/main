@@ -1,0 +1,32 @@
+import pygame
+
+from game import Game
+
+
+# Initialisation de Pygame
+pygame.init()
+
+if __name__ == "__main__" : #si le nom du fichier est main on lance le programme
+    game = Game()
+    game.run()
+
+# Paramètres de la fenêtre
+WIDTH, HEIGHT = 1200, 700
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Cat Wars")
+
+# Boucle principale du jeu
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Remplir l'écran en blanc
+    screen.fill((255, 255, 255))
+
+    # Rafraîchir l'écran
+    pygame.display.flip()
+
+# Quitter Pygame
+pygame.quit()
