@@ -9,7 +9,7 @@ class Screen :
 
     def update(self) :
         pygame.display.flip()
-        #self.display.update()
+        pygame.display.update()
         self.clock.tick(self.framerate)
         self.display.fill((0, 0, 0))
 
