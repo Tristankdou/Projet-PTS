@@ -48,6 +48,7 @@ class Entity(pygame.sprite.Sprite):
 
     def move_down(self) :
         self.animation_walk = True
+        self.direction = "down"
         self.image = self.all_images["down"][self.index_image]
 
     def move(self) :
