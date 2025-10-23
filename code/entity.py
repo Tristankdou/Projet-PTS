@@ -26,6 +26,10 @@ class Entity(pygame.sprite.Sprite):
         self.animation_walk : bool = False  # variable pour savoir si l'entité est en train de marcher
         self.direction : str = "down"  # direction de l'entité (up, down, left, right)
 
+        self.animation_step_time : int = 0.0  #pour stocker le temps
+        self.action_animation = 16  #durée entre chaque étape d'animation en ms
+
+
     def update(self):
         self.move()
         self.rect.topleft = self.position #mettre à jour la position du rectangle de collision
@@ -53,7 +57,8 @@ class Entity(pygame.sprite.Sprite):
 
     def move(self) :
         if self.animation_walk :
-            if self.step < 16 : #car une case fait 16 pixels donc déplacement en 16
+            self.animation_step_time += self.screen.getdeltatime()
+            if self.step < 16 and self.animation_step_time >= self.action_animation : #car une case fait 16 pixels donc déplacement en 16
                 self.step += 1
                 if self.direction == "left" :
                     self.position.x -= 1
@@ -63,7 +68,8 @@ class Entity(pygame.sprite.Sprite):
                     self.position.y -= 1
                 elif self.direction == "down" :
                     self.position.y += 1
-            else :
+                self.animation_step_time = 0.0 
+            elif self.step >= 16 :
                 self.step = 0
                 self.animation_walk = False
 
