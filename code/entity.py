@@ -21,26 +21,31 @@ class Entity(pygame.sprite.Sprite):
         self.all_images = self.get_all_images() #toutes les images du personnage pour les animations
 
         self.hitbox: pygame.Rect = pygame.Rect(0, 0, 16, 16) #une hitbox est un rectangle invisible qui permet de détecter les collisions avec d'autres objets
-
+        self.step : int = 0  # variable pour gérer les étapes d'animation
+        self.animation_walk : bool = False  # variable pour savoir si l'entité est en train de marcher
+        self.direction : str = "down"  # direction de l'entité (up, down, left, right)
 
     def update(self):
         self.rect.topleft = self.position #mettre à jour la position du rectangle de collision
         self.hitbox.midbottom = self.rect.midbottom #midbottom car on veut que la hitbox se situe sur le corps de l'entité
 
     def move_left(self) :
-        self.position[0] -= 1
+        self.animation_walk = True
+        self.direction = "left"
         self.image = self.all_images["left"][0]
     
     def move_right(self) :
-        self.position[0] += 1
+        self.animation_walk = True
+        self.direction = "right"
         self.image = self.all_images["right"][0]
 
     def move_up(self) :
-        self.position[1] -= 1
+        self.animation_walk = True
+        self.direction = "up"
         self.image = self.all_images["up"][0]
 
     def move_down(self) :
-        self.position[1] += 1
+        self.animation_walk = True
         self.image = self.all_images["down"][0]
 
     def align_hitbox(self) :
