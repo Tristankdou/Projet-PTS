@@ -20,6 +20,8 @@ class Entity(pygame.sprite.Sprite):
         self.rect : pygame.Rect = self.image.get_rect() #rectangle de collision de l'entité
         self.all_images = self.get_all_images() #toutes les images du personnage pour les animations
         self.index_image : int = 0  # index de l'image actuelle pour l'animation
+        self.image_part = 0
+        self.reset_animation = False
 
         self.hitbox: pygame.Rect = pygame.Rect(0, 0, 16, 16) #une hitbox est un rectangle invisible qui permet de détecter les collisions avec d'autres objets
         self.step : int = 0  # variable pour gérer les étapes d'animation
@@ -28,32 +30,37 @@ class Entity(pygame.sprite.Sprite):
 
         self.animation_step_time : int = 0.0  #pour stocker le temps
         self.action_animation = 16  #durée entre chaque étape d'animation en ms
+        
 
 
     def update(self):
+        self.animation_sprite()
         self.move()
         self.rect.topleft = self.position #mettre à jour la position du rectangle de collision
         self.hitbox.midbottom = self.rect.midbottom #midbottom car on veut que la hitbox se situe sur le corps de l'entité
+        self.image = self.all_images[self.direction][self.index_image] #mettre à jour l'image de l'entité en fonction de la direction et de l'index de l'image
 
     def move_left(self) :
         self.animation_walk = True
         self.direction = "left"
-        self.image = self.all_images["left"][self.index_image]
     
     def move_right(self) :
         self.animation_walk = True
         self.direction = "right"
-        self.image = self.all_images["right"][self.index_image]
 
     def move_up(self) :
         self.animation_walk = True
         self.direction = "up"
-        self.image = self.all_images["up"][self.index_image]
 
     def move_down(self) :
         self.animation_walk = True
         self.direction = "down"
-        self.image = self.all_images["down"][self.index_image]
+
+    def animation_sprite(self) :
+        if int(self.step // 8) + self.image_part >= 4 :
+            self.image_part = 0
+            self.reset_animation = True
+        self.index_image = int(self.step //8) + self.image_part # 4 images par direction, donc chaque image dure 8 étapes (16 pixels / 2)
 
     def move(self) :
         if self.animation_walk :
@@ -72,6 +79,14 @@ class Entity(pygame.sprite.Sprite):
             elif self.step >= 16 :
                 self.step = 0
                 self.animation_walk = False
+                if self.reset_animation :
+                    self.reset_animation = False
+                else :
+                    if self.image_part == 0 :
+                        self.image_part = 2
+                    else :
+                        self.image_part = 0
+
 
     def align_hitbox(self) :
         self.rect.center = self.position

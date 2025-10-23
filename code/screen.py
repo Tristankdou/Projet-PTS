@@ -5,7 +5,7 @@ class Screen :
         self.display = pygame.display.set_mode((1200, 700))
         pygame.display.set_caption("Cat Wars")
         self.clock = pygame.time.Clock()
-        self.framerate = 60
+        self.framerate = 144 # définir le taux de rafraîchissement de l'écran
         self.deltatime: float = 0.0
 
     def update(self) :
