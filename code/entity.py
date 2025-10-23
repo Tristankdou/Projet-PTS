@@ -1,11 +1,13 @@
 import pygame
 
 from tool import Tool
+from screen import Screen
 from keylistener import KeyListener
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, keylistener : KeyListener):
+    def __init__(self, keylistener : KeyListener, screen: Screen,x: int, y: int):
         super().__init__() #initialiser la classe parente pygame.sprite.Sprite
+        self.screen = screen
         self.keylistener = keylistener
         self.spritesheet = pygame.image.load("../assets/sprite/Boy_character.png") #charger la spritesheet
         self.image = Tool.split_image(self.spritesheet, 0, 0, 90, 150) #découper la spritesheet pour obtenir le personnage
@@ -20,18 +22,7 @@ class Entity(pygame.sprite.Sprite):
         self.all_images = self.get_all_images() #toutes les images du personnage pour les animations
 
     def update(self):
-        self.check_move()
         self.rect.topleft = self.position #mettre à jour la position du rectangle de collision
-
-    def check_move(self):
-        if self.keylistener.key_pressed(pygame.K_LEFT) :
-            self.move_left()
-        if self.keylistener.key_pressed(pygame.K_RIGHT) :
-            self.move_right()
-        if self.keylistener.key_pressed(pygame.K_UP) :
-            self.move_up()
-        if self.keylistener.key_pressed(pygame.K_DOWN) :
-            self.move_down()
 
     def move_left(self) :
         self.position[0] -= 1
@@ -59,5 +50,3 @@ class Entity(pygame.sprite.Sprite):
                 sprite = pygame.transform.scale(sprite, (35, 55))
                 all_images[key].append(sprite)
         return all_images
-
-

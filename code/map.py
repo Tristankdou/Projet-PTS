@@ -29,4 +29,3 @@ class Map: #créer une classe map qui contient l'écran sur lequel on affiche to
         self.group.update()
         self.group.center(self.player.rect.center) #centrer la carte sur le joueur
         self.group.draw(self.screen.get_display())
-
