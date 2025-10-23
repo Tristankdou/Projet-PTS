@@ -3,6 +3,7 @@ import pytmx #importer la bibliothèque pytmx pour charger les cartes au format 
 import pyscroll #importer la bibliothèque pyscroll pour afficher les cartes tmx
 
 from screen import Screen
+from player import Player
 
 class Map: #créer une classe map qui contient l'écran sur lequel on affiche tout
     def __init__(self, screen: Screen):
@@ -12,7 +13,7 @@ class Map: #créer une classe map qui contient l'écran sur lequel on affiche to
         self.group = None
 
         self.switch_map("map0")
-        self.player = None
+        self.player : Player = None
 
     def switch_map(self, map: str): #fonction qui permet de changer de carte
         self.tmx_data = pytmx.load_pygame(f"../assets/map/{map}.tmx") #charger les données de la carte
@@ -24,6 +25,7 @@ class Map: #créer une classe map qui contient l'écran sur lequel on affiche to
     def add_player(self, player): #fonction qui ajoute le joueur à la carte
         self.group.add(player)
         self.player = player
+        self.player.align_hitbox()
 
     def update(self): #fonction qui met à jour l'affichage de la carte
         self.group.update()

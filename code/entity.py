@@ -16,13 +16,17 @@ class Entity(pygame.sprite.Sprite):
         new_width, new_height = 35, 55
         self.image = pygame.transform.scale(self.image, (new_width, new_height))
 
-        self.position = [0, 0] #position de l'entité
+        self.position : pygame.math.Vector2 = pygame.math.Vector2(x,y) #position de l'entité
         #self.rect : pygame.Rect = pygame.Rect(0, 0, 16, 32) #rectangle de collision de l'entité
         self.rect = self.image.get_rect(topleft=self.position)
         self.all_images = self.get_all_images() #toutes les images du personnage pour les animations
 
+        self.hitbox: pygame.Rect = pygame.Rect(0, 0, 16, 16) #une hitbox est un rectangle invisible qui permet de détecter les collisions avec d'autres objets
+
+
     def update(self):
         self.rect.topleft = self.position #mettre à jour la position du rectangle de collision
+        self.hitbox.midbottom = self.rect.midbottom #midbottom car on veut que la hitbox se situe sur le corps de l'entité
 
     def move_left(self) :
         self.position[0] -= 1
@@ -39,6 +43,17 @@ class Entity(pygame.sprite.Sprite):
     def move_down(self) :
         self.position[1] += 1
         self.image = self.all_images["down"][0]
+
+    def align_hitbox(self) :
+        self.rect.center = self.position
+        self.hitbox.midbottom = self.rect.midbottom
+        while self.hitbox.x % 16 != 0 :
+            self.rect.x -= 1
+            self.hitbox.midbottom = self.rect.midbottom
+        while self.hitbox.y % 16 != 0 :
+            self.rect.y -= 1
+            self.hitbox.midbottom = self.rect.midbottom
+        self.position = pygame.math.Vector2(self.rect.center)
 
     def get_all_images(self):
         all_images = {"down": [], "left": [], "right": [], "up": []}
