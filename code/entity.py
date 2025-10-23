@@ -17,8 +17,7 @@ class Entity(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (new_width, new_height))
 
         self.position : pygame.math.Vector2 = pygame.math.Vector2(x,y) #position de l'entité
-        #self.rect : pygame.Rect = pygame.Rect(0, 0, 16, 32) #rectangle de collision de l'entité
-        self.rect = self.image.get_rect(topleft=self.position)
+        self.rect : pygame.Rect = self.image.get_rect() #rectangle de collision de l'entité
         self.all_images = self.get_all_images() #toutes les images du personnage pour les animations
 
         self.hitbox: pygame.Rect = pygame.Rect(0, 0, 16, 16) #une hitbox est un rectangle invisible qui permet de détecter les collisions avec d'autres objets
@@ -57,10 +56,14 @@ class Entity(pygame.sprite.Sprite):
 
     def get_all_images(self):
         all_images = {"down": [], "left": [], "right": [], "up": []}
+
+        width : int = self.spritesheet.get_width() //4 #car 4 directions
+        height : int = self.spritesheet.get_height() //4
+
         for j, key in enumerate(all_images.keys()):
             for i in range(4):  # 4 sprites par ligne
-                x = i  # Position x du sprite
-                y = j * 155  # Position y du sprite
+                x = i * width # Position x du sprite
+                y = j * height # Position y du sprite
                 sprite = Tool.split_image(self.spritesheet, x, y, 90, 150)
                 sprite = pygame.transform.scale(sprite, (35, 55))
                 all_images[key].append(sprite)
