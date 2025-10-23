@@ -19,6 +19,7 @@ class Entity(pygame.sprite.Sprite):
         self.position : pygame.math.Vector2 = pygame.math.Vector2(x,y) #position de l'entité
         self.rect : pygame.Rect = self.image.get_rect() #rectangle de collision de l'entité
         self.all_images = self.get_all_images() #toutes les images du personnage pour les animations
+        self.index_image : int = 0  # index de l'image actuelle pour l'animation
 
         self.hitbox: pygame.Rect = pygame.Rect(0, 0, 16, 16) #une hitbox est un rectangle invisible qui permet de détecter les collisions avec d'autres objets
         self.step : int = 0  # variable pour gérer les étapes d'animation
@@ -26,27 +27,44 @@ class Entity(pygame.sprite.Sprite):
         self.direction : str = "down"  # direction de l'entité (up, down, left, right)
 
     def update(self):
+        self.move()
         self.rect.topleft = self.position #mettre à jour la position du rectangle de collision
         self.hitbox.midbottom = self.rect.midbottom #midbottom car on veut que la hitbox se situe sur le corps de l'entité
 
     def move_left(self) :
         self.animation_walk = True
         self.direction = "left"
-        self.image = self.all_images["left"][0]
+        self.image = self.all_images["left"][self.index_image]
     
     def move_right(self) :
         self.animation_walk = True
         self.direction = "right"
-        self.image = self.all_images["right"][0]
+        self.image = self.all_images["right"][self.index_image]
 
     def move_up(self) :
         self.animation_walk = True
         self.direction = "up"
-        self.image = self.all_images["up"][0]
+        self.image = self.all_images["up"][self.index_image]
 
     def move_down(self) :
         self.animation_walk = True
-        self.image = self.all_images["down"][0]
+        self.image = self.all_images["down"][self.index_image]
+
+    def move(self) :
+        if self.animation_walk :
+            if self.step < 16 : #car une case fait 16 pixels donc déplacement en 16
+                self.step += 1
+                if self.direction == "left" :
+                    self.position.x -= 1
+                elif self.direction == "right" :
+                    self.position.x += 1
+                elif self.direction == "up" :
+                    self.position.y -= 1
+                elif self.direction == "down" :
+                    self.position.y += 1
+            else :
+                self.step = 0
+                self.animation_walk = False
 
     def align_hitbox(self) :
         self.rect.center = self.position

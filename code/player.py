@@ -17,7 +17,7 @@ class Player(Entity):
         super().update() 
 
     def check_move(self):
-        #if self.animation_walk is False:
+        if self.animation_walk is False:
             if self.keylistener.key_pressed(pygame.K_LEFT) :
                 self.move_left()
             if self.keylistener.key_pressed(pygame.K_RIGHT) :
