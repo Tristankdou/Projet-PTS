@@ -12,7 +12,7 @@ class Map: #créer une classe map qui contient l'écran sur lequel on affiche to
         self.map_layer = None
         self.group = None
 
-        self.switch_map("map0")
+        self.switch_map("map_0")
         self.player : Player = None
 
     def switch_map(self, map: str): #fonction qui permet de changer de carte
