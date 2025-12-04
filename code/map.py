@@ -31,3 +31,20 @@ class Map: #créer une classe map qui contient l'écran sur lequel on affiche to
         self.group.update()
         self.group.center(self.player.rect.center) #centrer la carte sur le joueur
         self.group.draw(self.screen.get_display())
+
+    def check_collision_with(self, object_name: str, entity: Player) -> bool:
+        """Vérifie si une entité entre en collision avec un objet de la carte.
+
+        Args:
+            object_name (str): Le nom de l'objet à vérifier.
+            entity (Player): L'entité à vérifier pour la collision.
+
+        Returns:
+            bool: True si une collision est détectée, False sinon.
+        """
+        for obj in self.tmx_data.objects:
+            if obj.name == object_name:
+                obj_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+                if entity.hitbox.colliderect(obj_rect):
+                    return True
+        return False
