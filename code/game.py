@@ -12,26 +12,37 @@ class Game:
         self.screen = Screen()
         self.map = Map(self.screen)
         self.keylistener = KeyListener()
-        self.player = Player(self.keylistener, self.screen, 0, 0)
+        self.player = Player(self.keylistener, self.screen, 380, 300)
         self.map.add_player(self.player)
 
         # État du jeu : "world" (map principale) ou "loterie" (écran de loterie)
         self.game_state = "world"
 
-    def run(self): # si le jeu est actif on fait quelque chose
-        while self.running :
+        try:
+            self.loterie_background = pygame.image.load("assets/sprite/loterie.png").convert()
+            self.loterie_background = pygame.transform.scale(self.loterie_background, (1200, 700))
+        except FileNotFoundError:
+            print("Erreur : Image de fond introuvable. Utilisation d'un fond noir.")
+            self.loterie_background = None  # Utilisera un fond noir en cas d'erreur
+
+    def run(self):
+        while self.running:
             self.handle_input()
 
             if self.game_state == "world":
-                # Mettre à jour la map et le joueur
                 self.map.update()
-                
+                self.map.group.draw(self.screen.get_display())
+
+            # Détecter la collision avec la maison
                 if self.map.check_collision_with("maison_loterie", self.player):
                     self.game_state = "loterie"
 
             elif self.game_state == "loterie":
-                # Gérer l'écran de loterie ici
-                self.screen.get_display().fill((0, 0, 0))  # Fond noir
+                # Afficher l'image de fond ou un fond noir
+                if self.loterie_background:
+                    self.screen.get_display().blit(self.loterie_background, (0, 0))
+                else:
+                    self.screen.get_display().fill((0, 0, 0))  # Fond noir en secours
 
             self.screen.update()
 

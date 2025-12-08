@@ -1,18 +1,17 @@
 import pygame
 
-class Screen :
-    def __init__(self) :
+class Screen:
+    def __init__(self):
         self.display = pygame.display.set_mode((1200, 700))
         pygame.display.set_caption("Cat Wars")
         self.clock = pygame.time.Clock()
-        self.framerate = 144 # définir le taux de rafraîchissement de l'écran
-        self.deltatime: float = 0.0
+        self.framerate = 144
+        self.deltatime = 0.0
 
-    def update(self) :
-        pygame.display.flip()
+    def update(self):
+        pygame.display.flip()  # Met à jour l'affichage
         pygame.display.update()
-        self.clock.tick(self.framerate)
-        self.display.fill((0, 0, 0))
+        self.clock.tick(self.framerate)  # Contrôle les FPS
         self.deltatime = self.clock.get_time()
 
     def getdeltatime(self) :
