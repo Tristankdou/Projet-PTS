@@ -5,6 +5,7 @@ from map import Map
 from entity import Entity
 from keylistener import KeyListener
 from player import Player
+from loterie import LoterieScreen
 
 class Game:
     def __init__(self):
@@ -33,16 +34,15 @@ class Game:
                 self.map.update()
                 self.map.group.draw(self.screen.get_display())
 
-            # Détecter la collision avec la maison
+                # Détecter la collision avec la maison
                 if self.map.check_collision_with("maison_loterie", self.player):
                     self.game_state = "loterie"
+                    self.loterie_screen = LoterieScreen(self.screen)  # Initialisation ici
 
             elif self.game_state == "loterie":
-                # Afficher l'image de fond ou un fond noir
-                if self.loterie_background:
-                    self.screen.get_display().blit(self.loterie_background, (0, 0))
-                else:
-                    self.screen.get_display().fill((0, 0, 0))  # Fond noir en secours
+                new_state = self.loterie_screen.afficher()
+                if new_state == "world":
+                    self.game_state = "world"
 
             self.screen.update()
 

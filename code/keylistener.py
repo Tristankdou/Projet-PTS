@@ -1,4 +1,3 @@
-
 class KeyListener : #classe qui gère les touches appuyées pour les mouvements
     def __init__(self) :
         self.keys : list[int] = []
