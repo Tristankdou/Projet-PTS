@@ -54,11 +54,6 @@ coverage.xml
 Thumbs.db
 desktop.ini
 
-# Pygame assets
-assets/map/*.tmx
-assets/map/*.tsx
-assets/sprites/*
-
 # Local environment variables
 .env
 
