@@ -19,13 +19,6 @@ class Game:
         # État du jeu : "world" (map principale) ou "loterie" (écran de loterie)
         self.game_state = "world"
 
-        try:
-            self.loterie_background = pygame.image.load("../assets/sprite/loterie.png").convert()
-            self.loterie_background = pygame.transform.scale(self.loterie_background, (1200, 700))
-        except FileNotFoundError:
-            print("Erreur : Image de fond introuvable. Utilisation d'un fond noir.")
-            self.loterie_background = None  # Utilisera un fond noir en cas d'erreur
-
     def run(self):
         while self.running:
             self.handle_input()
