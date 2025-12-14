@@ -1,6 +1,6 @@
 import pygame
 import random
-from code.cat import Cat
+from cat import Cat
 
 class Lottery:
     def __init__(self):

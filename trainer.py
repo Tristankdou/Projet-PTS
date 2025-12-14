@@ -1,6 +1,6 @@
 import pygame
-from code.entity import Entity
-from code.cat import Cat
+from entity import Entity
+from cat import Cat
 import random
 
 class Trainer(Entity):

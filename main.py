@@ -1,7 +1,7 @@
 import pygame
 import sys
-from code.game_state import GameState
-import code.player as player
+from game_state import GameState
+import player
 
 def main():
     pygame.init()

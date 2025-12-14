@@ -1,9 +1,9 @@
 import pygame
-from code.map import Map
-from code.player import Player
+from map import Map
+from player import Player
 from battle import Battle
-from code.lottery import Lottery
-from code.cat import Cat
+from lottery import Lottery
+from cat import Cat
 import random
 
 class GameState:

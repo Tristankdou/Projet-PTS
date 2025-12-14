@@ -1,6 +1,6 @@
 import pygame
 import pytmx
-from code.trainer import Trainer
+from trainer import Trainer
 import random
 
 class Map:
