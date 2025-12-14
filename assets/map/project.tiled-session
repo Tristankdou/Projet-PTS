@@ -1,0 +1,29 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
+    "fileStates": {
+        "map.tmx": {
+            "scale": 0.6293749999999999,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 840.5163853028799,
+                "y": 480.63555114200597
+            }
+        },
+        "map0.tmx": {
+            "scale": 0.325375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 799.0779869381483,
+                "y": 800.6146753745679
+            }
+        }
+    },
+    "openFiles": [
+    ],
+    "project": "project.tiled-project",
+    "recentFiles": [
+    ]
+}

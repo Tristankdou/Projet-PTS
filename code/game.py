@@ -1,10 +1,10 @@
 import pygame
 
 from screen import Screen
-from map import Map
-from entity import Entity
+from code.map import Map
+from code.entity import Entity
 from keylistener import KeyListener
-from player import Player
+from code.player import Player
 from loterie import LoterieScreen
 
 class Game:
