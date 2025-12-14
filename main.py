@@ -10,7 +10,7 @@ def main():
     SCREEN_WIDTH = 1200
     SCREEN_HEIGHT = 700
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("Cat Battle Adventure")
+    pygame.display.set_caption("Cat Wars")
     
     clock = pygame.time.Clock()
     FPS = 60
