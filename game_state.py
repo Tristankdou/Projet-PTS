@@ -2,7 +2,7 @@ import pygame
 from map import Map
 from player import Player
 from battle import Battle
-from lottery import Lottery
+from lotterie_screen import LoterieScreen
 from cat import Cat
 import random
 
@@ -27,7 +27,7 @@ class GameState:
         
         # Battle and lottery systems
         self.battle = None
-        self.lottery = Lottery()
+        self.lotterie_screen = None
         
         # Camera offset
         self.camera_x = 0
@@ -65,7 +65,7 @@ class GameState:
                     # Check for lottery house
                     if self.map.check_lottery_collision(self.player):
                         self.state = "LOTTERY"
-                        print("joueur dans loterie ")
+                        self.lotterie_screen = LoterieScreen(self.screen, self.player)
         
         elif self.state == "BATTLE":
             self.battle.handle_event(event)
@@ -73,12 +73,14 @@ class GameState:
                 self.end_battle()
         
         elif self.state == "LOTTERY":
-            result = self.lottery.handle_event(event, self.player)
-            if result == "exit":
+            result = self.lotterie_screen.handle_input(event)
+            if result == "quit":
                 self.state = "EXPLORATION"
-            elif result is not None:
-                # Player won a cat
+            elif isinstance(result, Cat):
+                # Ajouter le chat obtenu à la collection du joueur
                 self.player.cats.append(result)
+                print(f"Nouveau chat obtenu : {result.rarity} #{result.cat_id}")
+                
     
     def update(self, dt):
         if self.state == "EXPLORATION":
@@ -141,7 +143,7 @@ class GameState:
             self.battle.draw(self.screen)
         
         elif self.state == "LOTTERY":
-            self.lottery.draw(self.screen, self.player)
+            self.lotterie_screen.draw()
     
     def draw_ui(self):
         """Draw exploration UI (coins, team info)"""
