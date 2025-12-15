@@ -17,7 +17,7 @@ class Entity:
             self.load_sprite(sprite_path)
     
     def load_sprite(self, path):
-        """Load sprite sheet"""
+        """Load le sprite sheet"""
         try:
             self.sprite_sheet = pygame.image.load(path).convert_alpha()
         except pygame.error as e:
@@ -27,12 +27,13 @@ class Entity:
             self.sprite_sheet.fill((255, 0, 255))
     
     def get_current_frame(self, row, num_frames=4):
-        """Extract current animation frame from sprite sheet"""
+        """récupérer la frame actuelle de l'animation"""
         if self.sprite_sheet is None:
             return None
         
         frame_width = self.sprite_sheet.get_width() // num_frames
-        frame_height = self.sprite_sheet.get_height() // 4  # Assuming 4 rows
+
+        frame_height = self.sprite_sheet.get_height() // 4  # the sprite is 4 rows
         
         frame_x = int(self.current_frame) * frame_width
         frame_y = row * frame_height

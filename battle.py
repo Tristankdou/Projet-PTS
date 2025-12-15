@@ -14,8 +14,8 @@ class Battle:
         
         # UI state
         self.selected_move = 0
-        self.moves = ["Normal Attack", "Special Attack"]
-        self.message = "What will you do?"
+        self.moves = ["Attaque Normale", "Attaque Speciale"]
+        self.message = "Quelle attaque choisissez-vous ?"
         self.message_timer = 0
         self.waiting_for_input = True
         
@@ -24,7 +24,7 @@ class Battle:
         self.shake_target = None
     
     def handle_event(self, event):
-        """Handle battle input"""
+        
         if not self.waiting_for_input or self.battle_over:
             return
         
@@ -37,21 +37,21 @@ class Battle:
                 self.execute_player_turn()
     
     def execute_player_turn(self):
-        """Execute player's selected move"""
+        """execute l'attaque du joueur"""
         self.waiting_for_input = False
         
         use_special = (self.selected_move == 1)
         damage = self.player_cat.calculate_damage(self.enemy_cat, use_special)
         self.enemy_cat.take_damage(damage)
         
-        move_name = "Special Attack" if use_special else "Normal Attack"
-        self.message = f"Your cat used {move_name}! Dealt {damage} damage!"
+        move_name = "Attaque Speciale " if use_special else "Attaque Normale"
+        self.message = f"Votre chat a utilisé {move_name} ! et a infligé {damage} dégâts!"
         self.shake_target = "enemy"
         self.shake_timer = 0.3
         
         # Check if enemy defeated
         if not self.enemy_cat.is_alive():
-            self.message = "You won the battle!"
+            self.message = "Vous avez gagné !!"
             self.battle_over = True
             self.winner = "player"
             self.trainer.defeat()
@@ -65,14 +65,14 @@ class Battle:
         damage = self.enemy_cat.calculate_damage(self.player_cat, use_special)
         self.player_cat.take_damage(damage)
         
-        move_name = "Special Attack" if use_special else "Normal Attack"
-        self.message = f"Enemy cat used {move_name}! Dealt {damage} damage!"
+        move_name = "Attaque Speciale" if use_special else "Attaque Normale"
+        self.message = f"Le chat énemi a utilisé {move_name}! Il a infligé {damage} dégâts!"
         self.shake_target = "player"
         self.shake_timer = 0.3
         
         # Check if player defeated
         if not self.player_cat.is_alive():
-            self.message = "You lost the battle!"
+            self.message = "Vous avez perdu..."
             self.battle_over = True
             self.winner = "enemy"
         else:
